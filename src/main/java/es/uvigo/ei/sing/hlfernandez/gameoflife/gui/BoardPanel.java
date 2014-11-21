@@ -4,18 +4,28 @@ import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.FileNotFoundException;
 
+import javax.swing.Box;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JToggleButton;
 import javax.swing.JToolBar;
 
 import es.uvigo.ei.sing.hlfernandez.gameoflife.Board;
+import es.uvigo.ei.sing.hlfernandez.gameoflife.Cell;
+import es.uvigo.ei.sing.hlfernandez.gameoflife.util.BoardUtils;
 
 public class BoardPanel extends JPanel{
 
+	private final static ImageIcon ICON_RANDOM = new ImageIcon(
+			BoardPanel.class.getResource("/icons/random.png"));
+	private final static ImageIcon ICON_FILE = new ImageIcon(
+			BoardPanel.class.getResource("/icons/file.png"));
 	private final static ImageIcon ICON_NEXT = new ImageIcon(
 			BoardPanel.class.getResource("/icons/next.png"));
 	private final static ImageIcon ICON_PLAY = new ImageIcon(
@@ -30,8 +40,11 @@ public class BoardPanel extends JPanel{
 	
 	private Board board;
 	private JTextArea boardTA;
+	private JButton randomBoardButton;
 	private JButton nextButton;
+	private JButton loadFileButton;
 	private JToggleButton autoButton;
+	private JFileChooser fC = new JFileChooser();
 	private BoardTable table;
 	private boolean auto = false;
 	private Thread animatorThread;
@@ -51,6 +64,25 @@ public class BoardPanel extends JPanel{
 	private Component getToolbar() {
 		JToolBar toolbar = new JToolBar(JToolBar.HORIZONTAL);
 		toolbar.setFloatable(false);
+		randomBoardButton = new JButton(ICON_RANDOM);
+		randomBoardButton.setToolTipText("Generades a random board");
+		randomBoardButton.addActionListener(new ActionListener() {
+			
+			public void actionPerformed(ActionEvent e) {
+				randomBoardButtonAction();
+			}
+		});
+		toolbar.add(randomBoardButton);
+		loadFileButton = new JButton(ICON_FILE);
+		loadFileButton.setToolTipText("Loads a board from a file");
+		loadFileButton.addActionListener(new ActionListener() {
+			
+			public void actionPerformed(ActionEvent e) {
+				loadFileButtonButtonAction();
+			}
+		});
+		toolbar.add(loadFileButton);
+		toolbar.add(Box.createHorizontalGlue());
 		nextButton = new JButton(ICON_NEXT);
 		nextButton.setToolTipText("Moves onto the next generation");
 		nextButton.addActionListener(new ActionListener() {
@@ -93,6 +125,31 @@ public class BoardPanel extends JPanel{
 
 	private void nextButtonAction() {
 		board.nextGeneration();
+		updateTable();
+	}
+	
+	private void loadFileButtonButtonAction() {
+		int returnVal = fC.showOpenDialog(this);
+		if (returnVal == JFileChooser.APPROVE_OPTION) {
+			try {
+				Cell[] cells = BoardUtils.readCells(fC.getSelectedFile());
+				board.setCells(cells);
+			} catch (FileNotFoundException e) {
+				JOptionPane.showMessageDialog(this, "File  "
+						+ fC.getSelectedFile().getAbsolutePath()
+						+ " can't be opened", "Invalid file",
+						JOptionPane.ERROR_MESSAGE);
+			}
+		}
+		updateTable();
+	}
+	
+	private void randomBoardButtonAction() {
+		board.setCells(BoardUtils.randomCells(ROWS, COLS));
+		updateTable();
+	}
+	
+	private void updateTable(){
 		table.updateTable();
 	}
 

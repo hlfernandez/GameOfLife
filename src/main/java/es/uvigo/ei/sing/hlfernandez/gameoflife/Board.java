@@ -12,12 +12,16 @@ public class Board {
 
 	private Set<Cell> cells;
 	
-	public Board(Cell ... cells ){
-		this.cells = new HashSet<Cell>(Arrays.asList(cells));
+	public Board(Cell... cells) {
+		this.setCells(cells);
 	}
-	
-	public Set<Cell> getCells(){
-		return this.cells; 
+
+	public Set<Cell> getCells() {
+		return this.cells;
+	}
+
+	public void setCells(Cell ... cells) {
+		this.cells = new HashSet<Cell>(Arrays.asList(cells));
 	}
 
 	public void nextGeneration() {
