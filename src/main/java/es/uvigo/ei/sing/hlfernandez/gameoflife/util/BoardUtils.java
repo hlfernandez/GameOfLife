@@ -34,12 +34,14 @@ public class BoardUtils {
 		BufferedReader reader = new BufferedReader(new InputStreamReader(is));
 		List<String> lines = (List<String>) reader.lines().collect(
 				Collectors.toList());
+		int row = 0;
 		for (String line : lines) {
 			for (int column = 0; column < line.length(); column++) {
 				if (line.charAt(column) == '1') {
-					cells.add(new Cell(lines.indexOf(line), column));
+					cells.add(new Cell(row, column));
 				}
 			}
+			row++;
 		}
 		return cells.toArray(new Cell[cells.size()]);
 	}
