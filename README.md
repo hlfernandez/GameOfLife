@@ -42,5 +42,7 @@ The format of a plain txt boar file is very simple:
 
 For example, the following file represents a board with three live cells at positions (0,0), (1,1) and (2,2):
 >100
+
 >010
+
 >001
