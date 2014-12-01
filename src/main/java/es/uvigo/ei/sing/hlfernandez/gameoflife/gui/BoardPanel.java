@@ -95,9 +95,7 @@ public class BoardPanel extends JPanel{
 		autoButton = new JToggleButton(ICON_PLAY);
 		autoButton.setSelectedIcon(ICON_PAUSE);
 		autoButton.setToolTipText("Play/pause animation");
-		autoButton.addActionListener(new ActionListener() {
-			
-			public void actionPerformed(ActionEvent e) {
+		autoButton.addItemListener(event -> {
 				nextButton.setEnabled(!autoButton.isSelected());
 				auto = autoButton.isSelected();
 				if(autoButton.isSelected()){
@@ -107,7 +105,6 @@ public class BoardPanel extends JPanel{
 					animatorThread.interrupt();
 					animatorThread = null;
 				}
-			}
 		});
 		toolbar.add(autoButton);
 		return toolbar;
