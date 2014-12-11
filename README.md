@@ -3,6 +3,8 @@ GameOfLife
 
 A Java implementation of the John Conway's Game of Life with a GUI.
 
+![Screenshot](https://raw.githubusercontent.com/hlfernandez/GameOfLife/master/screenshots/gol-screenshot.png)
+
 Requirements
 ------------
 To run this implementation of the game of life you need:
