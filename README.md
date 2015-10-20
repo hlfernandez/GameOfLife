@@ -24,7 +24,7 @@ First, go to the GameOfLife project base directory and run the following command
 `mvn package`
 
 ### 3. Launch
-After building you can find the distribution file `gol-1.0.war` file in the `target` directory. Type `java -jar gol-1.0.jar` to run the application.
+After building you can find the distribution file `gol-1.0.jar` file in the `target` directory. Type `java -jar gol-1.0.jar` to run the application.
 
 Usage
 ------------
